@@ -2,18 +2,18 @@ const express = require('express');
 const router = express.Router();
 
 const userController = require('../controllers/userController');
-const {hasPermission} = require('../middleware/permissionMiddleware');
+const {hasRole} = require('../middleware/roleMiddleware');
 const {verifyToken} = require('../middleware/authMiddleware');
 
 router.use(verifyToken);
 
-router.get('/', hasPermission('view_users'), userController.getAllUsers);
+router.get('/', hasRole(['admin']), userController.getAllUsers);
 
-router.get('/:role', hasPermission('view_users'), userController.getUsersByRole);
+router.get('/:role', hasRole(['admin']), userController.getUsersByRole);
 
-router.delete('/:id', hasPermission('delete_user'), userController.deleteUser);
+router.delete('/:id', hasRole(['admin']), userController.deleteUser);
 
-router.post('/', hasPermission('add_user'), userController.addUser);
+router.post('/', hasRole(['admin']), userController.addUser);
 
 
 module.exports = router;
