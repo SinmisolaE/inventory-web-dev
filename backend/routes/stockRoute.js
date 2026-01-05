@@ -14,7 +14,7 @@ router.get('/:id', hasRole(['admin', 'stocker']), stockController.getStockById);
 
 router.post('/', hasRole(['admin', 'stocker']), stockController.addStock);
 
-router.post('/:id', hasRole(['admin', 'stocker']), stockController.UpdateStock);
+router.patch('/:id', hasRole(['admin', 'stocker']), stockController.UpdateStock);
 
 router.delete('/:id', hasRole(['admin']), stockController.deleteStock);
 

@@ -15,5 +15,6 @@ router.delete('/:id', hasRole(['admin']), userController.deleteUser);
 
 router.post('/', hasRole(['admin']), userController.addUser);
 
+router.patch('/reset-password', hasRole(['admin']), userController.resetUserPassword);
 
 module.exports = router;

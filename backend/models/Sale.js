@@ -20,6 +20,10 @@ const SaleSchema = new mongoose.Schema({
         type: BigDecimal,
         required: true
     },
+    totalSaleAmount: {
+        type: BigDecimal,
+        required: true
+    },
     customer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer',

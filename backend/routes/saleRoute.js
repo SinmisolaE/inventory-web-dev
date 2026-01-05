@@ -7,10 +7,10 @@ const {verifyToken} = require('../middleware/authMiddleware');
 
 router.use(verifyToken);
 
-router.get('/', hasRole(['admin', 'seller']), stockController.getAllSales);
+router.get('/', hasRole(['admin', 'seller']), saleController.getAllSales);
 
-router.get('/:id', hasRole(['admin', 'seller']), stockController.getSaleById);
+router.get('/:id', hasRole(['admin', 'seller']), saleController.getSaleById);
 
-router.post('/', hasRole(['seller']), stockController.Sell);
+router.post('/', hasRole(['seller']), saleController.Sell);
 
 module.exports = router;
