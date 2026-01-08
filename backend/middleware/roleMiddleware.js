@@ -22,5 +22,7 @@ const hasRole = (allowed) => (req, res, next) => {
         });
     }
     
-    return next;
+    return next();
 }
+
+module.exports = { hasRole };

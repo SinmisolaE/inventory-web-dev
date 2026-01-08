@@ -1,0 +1,7 @@
+/* Global styles and Bootstrap import */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* App-wide helpers */
+.container-fluid, .container {
+	--bs-gutter-x: 1.25rem;
+}

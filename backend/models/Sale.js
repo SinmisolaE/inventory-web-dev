@@ -13,15 +13,15 @@ const SaleSchema = new mongoose.Schema({
         required: true
     },
     quantity: {
-        type: BigDecimal,
+        type: mongoose.Schema.Types.Decimal128,
         required: true
     },
     unitSellPrice: {
-        type: BigDecimal,
+        type: mongoose.Schema.Types.Decimal128,
         required: true
     },
     totalSaleAmount: {
-        type: BigDecimal,
+        type: mongoose.Schema.Types.Decimal128,
         required: true
     },
     customer: {
@@ -30,8 +30,8 @@ const SaleSchema = new mongoose.Schema({
         required: true
     },
     createdAt: {
-        type: Date.now,
-        required: true
+        type: Date,
+        default: Date.now
     }
 });
 

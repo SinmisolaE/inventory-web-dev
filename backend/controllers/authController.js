@@ -25,6 +25,8 @@ const login = async (req, res) => {
     try {
         const {username, password} = req.body;
 
+        console.log(`${username}: ${password}`);
+
         if (!username || !password) {
             return res.status(400).json({
                 success: false,
@@ -32,8 +34,7 @@ const login = async (req, res) => {
             });
         }
 
-        const user = await User.findOne({ username })
-            .select('-hashedPassword');
+        const user = await User.findOne({ username });
         if (!user) {
             return res.status(400).json({
                 success: false,

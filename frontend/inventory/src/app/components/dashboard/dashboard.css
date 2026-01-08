@@ -1,0 +1,22 @@
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.dashboard-body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0; /* for flexbox scrolling */
+}
+
+app-sidebar.sidebar,
+app-sidebar {
+  flex: 0 0 auto;
+}
+
+.dashboard-content {
+  flex: 1 1 auto;
+  overflow: auto;
+  background: #f8fafc;
+}

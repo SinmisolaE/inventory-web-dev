@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 const verifyToken = async (req, res, next) => {
     try {
-        const authHeader = res.headers.authorization;
+        const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
             return res.status(401).json({
                 success: false,

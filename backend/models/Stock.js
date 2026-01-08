@@ -15,19 +15,19 @@ const StockSchema = new mongoose.Schema({
         required: true
     },
     initialAmount: {
-        type: int,
+        type: Number,
         required: true
     },
     currentAmount: {
-        type: int,
+        type: Number,
         required: true
     },
     unitCostPrice: {
-        type: BigDecimal,
+        type: mongoose.Schema.Types.Decimal128,
         required: true
     },
     unitSellPrice: {
-        type: BigDecimal,
+        type: mongoose.Schema.Types.Decimal128,
         required: true
     },
     source: {

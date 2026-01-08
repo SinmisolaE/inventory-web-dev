@@ -41,7 +41,8 @@ const addUser = async (req, res) => {
 		const user = new User({ username, hashedPassword, role });
 		await user.save();
 
-        const sanitizeUser = user.select('-hashedPassword');
+        const sanitizeUser = user.toObject();
+        delete sanitizeUser.hashedPassword;
 
 		res.status(201).json(sanitizeUser);
 	} catch (error) {

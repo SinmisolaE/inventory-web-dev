@@ -34,7 +34,6 @@ app.use('/users', userRoutes);
 mongoose.connect(process.env.MONGO_URI).then(async () => {
     app.listen(PORT);
     console.log(`Database connected - Server running on port ${PORT}`);
-    await initializeRoles();
 }).catch(err => {
     console.error('Database connection failed:', err);
 });
