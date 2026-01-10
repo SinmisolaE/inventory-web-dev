@@ -1,0 +1,157 @@
+<div class="stocks-container">
+  <h2>Stock Management</h2>
+
+  <div class="stocks-header">
+    <button 
+      *ngIf="canAdd" 
+      class="btn btn-primary" 
+      (click)="toggleForm()">
+      {{ showForm ? 'Hide Form' : 'Add New Stock' }}
+    </button>
+  </div>
+
+  <!-- Add/Edit Form -->
+  <div *ngIf="showForm" class="stock-form">
+    <h3>{{ isEditing ? 'Edit Stock' : 'Add New Stock' }}</h3>
+    
+    <form (ngSubmit)="saveStock()">
+      <div class="form-group">
+        <label>Code</label>
+        <input 
+          type="text" 
+          [(ngModel)]="formData.code" 
+          name="code"
+          required
+          [disabled]="isEditing"
+          class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Name</label>
+        <input 
+          type="text" 
+          [(ngModel)]="formData.name" 
+          name="name"
+          required
+          class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Model</label>
+        <input 
+          type="text" 
+          [(ngModel)]="formData.model" 
+          name="model"
+          required
+          class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Initial Amount</label>
+        <input 
+          type="number" 
+          [(ngModel)]="formData.initialAmount" 
+          name="initialAmount"
+          required
+          class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Unit Cost Price</label>
+        <input 
+          type="number" 
+          step="0.01"
+          [(ngModel)]="formData.unitCostPrice" 
+          name="unitCostPrice"
+          required
+          class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Unit Sell Price</label>
+        <input 
+          type="number" 
+          step="0.01"
+          [(ngModel)]="formData.unitSellPrice" 
+          name="unitSellPrice"
+          required
+          class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Source</label>
+        <input 
+          type="text" 
+          [(ngModel)]="formData.source" 
+          name="source"
+          required
+          class="form-control">
+      </div>
+
+      <div class="form-buttons">
+        <button type="submit" class="btn btn-success">{{ isEditing ? 'Update' : 'Save' }}</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="alert alert-info">
+    Loading stocks...
+  </div>
+
+  <!-- Stocks Table -->
+  <div *ngIf="!isLoading && stocks.length > 0" class="stocks-table-wrapper">
+    <table class="stocks-table">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Model</th>
+          <th>Current Amount</th>
+          <th>Unit Cost Price</th>
+          <th>Unit Sell Price</th>
+          <th>Source</th>
+          <th>Stocker</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stock of stocks">
+          <td>{{ stock.code }}</td>
+          <td>{{ stock.name }}</td>
+          <td>{{ stock.model }}</td>
+          <td>{{ stock.currentAmount }}</td>
+          <td>D{{ stock.unitCostPrice }}</td>
+          <td>D{{ stock.unitSellPrice }}</td>
+          <td>{{ stock.source }}</td>
+          <td>{{ stock.stocker.username }}</td>
+          <td>
+            <button 
+              *ngIf="canEdit"
+              class="btn btn-sm btn-warning" 
+              (click)="editStock(stock)">
+              Edit
+            </button>
+            <button 
+              *ngIf="canDelete"
+              class="btn btn-sm btn-danger" 
+              (click)="deleteStock(stock._id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && stocks.length === 0" class="alert alert-info">
+    No stocks found.
+  </div>
+</div>

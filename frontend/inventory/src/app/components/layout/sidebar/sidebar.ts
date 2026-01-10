@@ -17,12 +17,6 @@ export class SidebarComponent {
   // Menu items based on roles (admin, stocker, seller)
   menuItems: MenuItem[] = [
     {
-      label: 'Dashboard',
-      icon: 'bi-speedometer2',
-      route: '/dashboard',
-      requiredRoles: [] // All authenticated users
-    },
-    {
       label: 'Stocks',
       icon: 'bi-box-seam',
       route: '/dashboard/stocks',

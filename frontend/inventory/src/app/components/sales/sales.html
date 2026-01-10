@@ -1,0 +1,123 @@
+<div class="sales-container">
+  <h2>Sales Management</h2>
+
+  <div class="sales-header">
+    <button 
+      *ngIf="canAdd" 
+      class="btn btn-primary" 
+      (click)="toggleForm()">
+      {{ showForm ? 'Hide Form' : 'New Sale' }}
+    </button>
+  </div>
+
+  <!-- New Sale Form -->
+  <div *ngIf="showForm" class="sale-form">
+    <h3>Create New Sale</h3>
+    
+    <form (ngSubmit)="saveSale()">
+      <div class="form-group">
+        <label>Product</label>
+        <select 
+          [(ngModel)]="formData.product" 
+          name="product"
+          (change)="onProductChange()"
+          required
+          class="form-control">
+          <option value="">Select a product</option>
+          <option *ngFor="let stock of stocks" [value]="stock._id">
+            {{ stock.name }} - {{ stock.model }} (Available: {{ stock.currentAmount }})
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="selectedStock" class="product-details">
+        <p><strong>Unit Price:</strong> ${{ selectedStock.unitSellPrice }}</p>
+        <p><strong>Available:</strong> {{ selectedStock.currentAmount }}</p>
+      </div>
+
+      <div class="form-group">
+        <label>Quantity</label>
+        <input 
+          type="number" 
+          [(ngModel)]="formData.quantity" 
+          name="quantity"
+          min="1"
+          [max]="selectedStock?.currentAmount || 1"
+          required
+          class="form-control">
+      </div>
+
+      <div *ngIf="selectedStock" class="total-amount">
+        <h4>Total Amount: ${{ getTotalAmount() }}</h4>
+      </div>
+
+      <div class="form-group">
+        <label>Customer Name</label>
+        <input 
+          type="text" 
+          [(ngModel)]="formData.customerName" 
+          name="customerName"
+          required
+          class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Customer Contact</label>
+        <input 
+          type="number" 
+          [(ngModel)]="formData.customerContact" 
+          name="customerContact"
+          required
+          class="form-control">
+      </div>
+
+      <div class="form-buttons">
+        <button type="submit" class="btn btn-success" [disabled]="!selectedStock">Complete Sale</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="alert alert-info">
+    Loading sales...
+  </div>
+
+  <!-- Sales Table -->
+  <div *ngIf="!isLoading && sales.length > 0" class="sales-table-wrapper">
+    <table class="sales-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Total Amount</th>
+          <th>Customer</th>
+          <th>Sold By</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sale of sales">
+          <td>{{ formatDate(sale.createdAt) }}</td>
+          <td>{{ sale.product.name }} - {{ sale.product.model }}</td>
+          <td>{{ sale.quantity }}</td>
+          <td>${{ sale.unitSellPrice }}</td>
+          <td>${{ sale.totalSaleAmount }}</td>
+          <td>{{ sale.customer.name }}</td>
+          <td>{{ sale.user.username }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && sales.length === 0" class="alert alert-info">
+    No sales found.
+  </div>
+</div>

@@ -23,11 +23,11 @@ const StockSchema = new mongoose.Schema({
         required: true
     },
     unitCostPrice: {
-        type: mongoose.Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
     unitSellPrice: {
-        type: mongoose.Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
     source: {
