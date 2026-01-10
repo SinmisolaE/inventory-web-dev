@@ -29,7 +29,7 @@ export class SaleService {
   }
 
   // Create new sale
-  createSale(sale: { product: string; quantity: number; customer: string }): Observable<SaleResponse> {
+  createSale(sale: { product: string; quantity: number; customerName: string, customerContact: string }): Observable<SaleResponse> {
     return this.http.post<SaleResponse>(`${this.apiUrl}/`, sale);
   }
 }

@@ -1,12 +1,13 @@
 const Sale = require('../models/Sale');
 const Stock = require('../models/Stock');
+const Customer = require('../models/Customer');
 
 const getAllSales = async (req, res) => {
     try {
         const sales = await Sale.find()
             .populate('product', 'name model')
             .populate('user', 'username')
-            .populate('customer', 'name email')
+            .populate('customer', 'name contact')
             .sort({ createdAt: -1 });
         
         res.status(200).json(sales);
@@ -20,7 +21,7 @@ const getSaleById = async (req, res) => {
         const sale = await Sale.findById(req.params.id)
             .populate('product', 'name model unitSellPrice')
             .populate('user', 'username')
-            .populate('customer', 'name email phone');
+            .populate('customer', 'name contact');
         
         if (!sale) {
             return res.status(404).json({ message: 'Sale not found' });
@@ -34,8 +35,9 @@ const getSaleById = async (req, res) => {
 
 const Sell = async (req, res) => {
     try {
-        const { product, quantity, customer } = req.body;
-        
+        console.log(req.body);
+        const { product, quantity, customerName, customerContact } = req.body;
+        console.log(customerName);
         // Find the product in stock
         const stockItem = await Stock.findById(product);
         if (!stockItem) {
@@ -50,7 +52,15 @@ const Sell = async (req, res) => {
             });
         }
 
-        totalSaleAmount = stockItem.unitSellPrice * quantity;
+        // Find or create customer
+        let customer = await Customer.findOne({ contact: customerContact });
+        if (!customer) {
+            // Create new customer
+            customer = new Customer({ name: customerName, contact: customerContact });
+            await customer.save();
+        }
+
+        const totalSaleAmount = stockItem.unitSellPrice * quantity;
         
         // Create the sale record
         const sale = new Sale({
@@ -59,7 +69,7 @@ const Sell = async (req, res) => {
             quantity,
             unitSellPrice: stockItem.unitSellPrice,
             totalSaleAmount,
-            customer,
+            customer: customer._id,
             createdAt: new Date()
         });
                 
@@ -73,10 +83,14 @@ const Sell = async (req, res) => {
         const populatedSale = await Sale.findById(sale._id)
             .populate('product', 'name model')
             .populate('user', 'username')
-            .populate('customer', 'name email');
+            .populate('customer', 'name contact');
         
-        res.status(201).json(populatedSale);
+        res.status(201).json({
+            success: true,
+            populatedSale
+        });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message });
     }
 };

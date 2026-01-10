@@ -3,14 +3,13 @@ const mongoose = require("mongoose");
 const CustomerSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        unique: true
-
+        required: true
     },
     contact: {
-        type: int,
-        required: true,
+        type: String,
+        unique: true,
+        required: true
     }
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Customer', CustomerSchema);

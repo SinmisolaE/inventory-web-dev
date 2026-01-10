@@ -13,15 +13,15 @@ const SaleSchema = new mongoose.Schema({
         required: true
     },
     quantity: {
-        type: mongoose.Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
     unitSellPrice: {
-        type: mongoose.Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
     totalSaleAmount: {
-        type: mongoose.Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
     customer: {

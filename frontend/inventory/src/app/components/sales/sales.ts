@@ -107,11 +107,11 @@ export class SalesComponent implements OnInit {
   }
 
   saveSale(): void {
-    // Create a temporary customer (in a real app, you'd have a customer management system)
     const saleData = {
       product: this.formData.product,
       quantity: this.formData.quantity,
-      customer: this.formData.customerName // Backend expects customer ID, but simplified here
+      customerName: this.formData.customerName,
+      customerContact: this.formData.customerContact
     };
 
     this.saleService.createSale(saleData).subscribe({

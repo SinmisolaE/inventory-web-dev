@@ -31,7 +31,7 @@
       </div>
 
       <div *ngIf="selectedStock" class="product-details">
-        <p><strong>Unit Price:</strong> ${{ selectedStock.unitSellPrice }}</p>
+        <p><strong>Unit Price:</strong> D{{ selectedStock.unitSellPrice }}</p>
         <p><strong>Available:</strong> {{ selectedStock.currentAmount }}</p>
       </div>
 
@@ -48,7 +48,7 @@
       </div>
 
       <div *ngIf="selectedStock" class="total-amount">
-        <h4>Total Amount: ${{ getTotalAmount() }}</h4>
+        <h4>Total Amount: D{{ getTotalAmount() }}</h4>
       </div>
 
       <div class="form-group">
@@ -107,8 +107,8 @@
           <td>{{ formatDate(sale.createdAt) }}</td>
           <td>{{ sale.product.name }} - {{ sale.product.model }}</td>
           <td>{{ sale.quantity }}</td>
-          <td>${{ sale.unitSellPrice }}</td>
-          <td>${{ sale.totalSaleAmount }}</td>
+          <td>D{{ sale.unitSellPrice }}</td>
+          <td>D{{ sale.totalSaleAmount }}</td>
           <td>{{ sale.customer.name }}</td>
           <td>{{ sale.user.username }}</td>
         </tr>
