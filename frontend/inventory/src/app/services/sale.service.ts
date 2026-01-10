@@ -4,6 +4,12 @@ import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Sale } from '../models/sale';
 
+export interface SaleResponse {
+  success?: boolean;
+  message?: string;
+  data?: Sale;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,17 +19,17 @@ export class SaleService {
   constructor(private http: HttpClient) {}
 
   // Get all sales
-  getAllSales(): Observable<Sale[]> {
-    return this.http.get<Sale[]>(`${this.apiUrl}/`);
+  getAllSales(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/`);
   }
 
   // Get sale by ID
-  getSaleById(id: string): Observable<Sale> {
-    return this.http.get<Sale>(`${this.apiUrl}/${id}`);
+  getSaleById(id: string): Observable<SaleResponse> {
+    return this.http.get<SaleResponse>(`${this.apiUrl}/${id}`);
   }
 
   // Create new sale
-  createSale(sale: { product: string; quantity: number; customer: string }): Observable<Sale> {
-    return this.http.post<Sale>(`${this.apiUrl}/`, sale);
+  createSale(sale: { product: string; quantity: number; customer: string }): Observable<SaleResponse> {
+    return this.http.post<SaleResponse>(`${this.apiUrl}/`, sale);
   }
 }

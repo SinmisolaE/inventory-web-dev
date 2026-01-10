@@ -6,6 +6,7 @@ export interface LoginCredentials {
 export interface AuthResponse {
   success: boolean;
   message: string;
+  requiresPasswordUpdate?: boolean;
   user: {
     id: string;
     username: string;

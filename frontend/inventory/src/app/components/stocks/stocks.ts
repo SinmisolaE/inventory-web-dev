@@ -60,7 +60,8 @@ export class StocksComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        this.errorMessage = 'Failed to load stocks';
+        const errorMessage = error?.error?.message || 'Failed to load stocks';
+        this.errorMessage = errorMessage;
         this.isLoading = false;
         console.error('Error loading stocks:', error);
       }
@@ -112,10 +113,13 @@ export class StocksComponent implements OnInit {
             this.resetForm();
             this.showForm = false;
             alert('Stock updated successfully');
+          } else {
+            alert('Failed to update stock');
           }
         },
         error: (error) => {
-          alert('Failed to update stock');
+          const errorMessage = error?.error?.message || 'Failed to update stock';
+          alert(errorMessage);
           console.error('Error updating stock:', error);
         }
       });
@@ -127,10 +131,15 @@ export class StocksComponent implements OnInit {
             this.resetForm();
             this.showForm = false;
             alert('Stock added successfully');
+          } else {
+            //console.log(response.)
+            alert(response || 'Failed to add stock');
           }
         },
         error: (error) => {
-          alert('Failed to add stock');
+          console.log(error);
+          const errorMessage = error?.error?.message || 'Failed to add stock';
+          alert(errorMessage);
           console.error('Error adding stock:', error);
         }
       });

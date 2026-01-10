@@ -61,15 +61,19 @@ export class LoginComponent {
           // Save user data
           localStorage.setItem('currentUser', JSON.stringify(response.user));
           
-          // Navigate to dashboard (we'll create this next)
-          this.router.navigate(['/dashboard']);
+          // Check if password update is required
+          if (response.requiresPasswordUpdate) {
+            this.router.navigate(['/update-password']);
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
         } else {
           this.errorMessage = response.message || 'Login failed';
         }
       },
       error: (error) => {
         this.isLoading = false;
-        this.errorMessage = error.error?.error || 'An error occurred. Please try again.';
+        this.errorMessage = error?.error?.message || error?.error?.error || 'An error occurred. Please try again.';
         console.error('Login error:', error);
       }
     });

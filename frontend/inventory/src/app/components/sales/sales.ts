@@ -53,12 +53,13 @@ export class SalesComponent implements OnInit {
   loadSales(): void {
     this.isLoading = true;
     this.saleService.getAllSales().subscribe({
-      next: (sales) => {
-        this.sales = sales;
+      next: (response) => {
+        this.sales = response.data || response;
         this.isLoading = false;
       },
       error: (error) => {
-        this.errorMessage = 'Failed to load sales';
+        const errorMessage = error?.error?.message || 'Failed to load sales';
+        this.errorMessage = errorMessage;
         this.isLoading = false;
         console.error('Error loading sales:', error);
       }
@@ -114,14 +115,18 @@ export class SalesComponent implements OnInit {
     };
 
     this.saleService.createSale(saleData).subscribe({
-      next: (sale) => {
-        this.loadSales();
-        this.resetForm();
-        this.showForm = false;
-        alert('Sale completed successfully');
+      next: (response) => {
+        if (response.success || response.data) {
+          this.loadSales();
+          this.resetForm();
+          this.showForm = false;
+          alert('Sale completed successfully');
+        } else {
+          alert(response.message || 'Failed to create sale');
+        }
       },
       error: (error) => {
-        const errorMsg = error.error?.message || 'Failed to create sale';
+        const errorMsg = error?.error?.message || 'Failed to create sale';
         alert(errorMsg);
         console.error('Error creating sale:', error);
       }

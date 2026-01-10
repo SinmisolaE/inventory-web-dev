@@ -33,12 +33,6 @@ export class SidebarComponent {
       icon: 'bi-people',
       route: '/dashboard/users',
       requiredRoles: ['admin'] // Only admins can manage users
-    },
-    {
-      label: 'Profile',
-      icon: 'bi-person',
-      route: '/dashboard/profile',
-      requiredRoles: [] // Everyone can access profile
     }
   ];
 

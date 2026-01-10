@@ -10,8 +10,15 @@ export interface User {
 }
 
 export interface UsersResponse {
-  success: boolean;
-  users: User[];
+  success?: boolean;
+  message?: string;
+  data?: User[];
+}
+
+export interface UserResponse {
+  success?: boolean;
+  message?: string;
+  data?: User;
 }
 
 @Injectable({
@@ -23,8 +30,8 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   // Get all users
-  getAllUsers(): Observable<UsersResponse> {
-    return this.http.get<UsersResponse>(`${this.apiUrl}/`);
+  getAllUsers(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/`);
   }
 
   // Get users by role
@@ -33,12 +40,12 @@ export class UserService {
   }
 
   // Delete user
-  deleteUser(id: string): Observable<{ success: boolean; message: string }> {
-    return this.http.delete<{ success: boolean; message: string }>(`${this.apiUrl}/${id}`);
+  deleteUser(id: string): Observable<{ success?: boolean; message?: string }> {
+    return this.http.delete<{ success?: boolean; message?: string }>(`${this.apiUrl}/${id}`);
   }
 
   // Add new user
-  addUser(user: { username: string; role: string }): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/`, user);
+  addUser(user: { username: string; role: string }): Observable<UserResponse> {
+    return this.http.post<UserResponse>(`${this.apiUrl}/`, user);
   }
 }

@@ -4,6 +4,6 @@ const {verifyToken} = require('../middleware/authMiddleware');
 const authController = require('../controllers/authController');
 
 router.post('/', authController.login);
-router.patch('/password', verifyToken, authController.updatePassword);
+router.patch('/update-password', verifyToken, authController.updatePassword);
 
 module.exports = router;

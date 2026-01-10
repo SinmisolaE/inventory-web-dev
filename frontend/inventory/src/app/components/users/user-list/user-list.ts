@@ -50,11 +50,13 @@ export class UserListComponent implements OnInit {
     this.isLoading = true;
     this.userService.getAllUsers().subscribe({
       next: (response) => {
-        this.users = response.users || response;
+        // Handle both array format and object with data property
+        this.users = Array.isArray(response) ? response : (response.data || []);
         this.isLoading = false;
       },
       error: (error) => {
-        this.errorMessage = 'Failed to load users';
+        const errorMessage = error?.error?.message || 'Failed to load users';
+        this.errorMessage = errorMessage;
         this.isLoading = false;
         console.error('Error loading users:', error);
       }
@@ -78,13 +80,17 @@ export class UserListComponent implements OnInit {
   saveUser(): void {
     this.userService.addUser(this.formData).subscribe({
       next: (response) => {
-        this.loadUsers();
-        this.resetForm();
-        this.showForm = false;
-        alert('User created successfully');
+        if (response.success !== false) {
+          this.loadUsers();
+          this.resetForm();
+          this.showForm = false;
+          alert('User created successfully');
+        } else {
+          alert(response.message || 'Failed to create user');
+        }
       },
       error: (error) => {
-        const errorMsg = error.error?.message || 'Failed to create user';
+        const errorMsg = error?.error?.message || 'Failed to create user';
         alert(errorMsg);
         console.error('Error creating user:', error);
       }
@@ -98,13 +104,16 @@ export class UserListComponent implements OnInit {
 
     this.userService.deleteUser(userId).subscribe({
       next: (response) => {
-        if (response.success || response.message) {
+        if (response.success !== false) {
           this.loadUsers();
           alert('User deleted successfully');
+        } else {
+          alert(response.message || 'Failed to delete user');
         }
       },
       error: (error) => {
-        alert('Failed to delete user');
+        const errorMsg = error?.error?.message || 'Failed to delete user';
+        alert(errorMsg);
         console.error('Error deleting user:', error);
       }
     });

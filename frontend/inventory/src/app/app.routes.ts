@@ -8,6 +8,11 @@ export const routes: Routes = [
 		.then(m => m.LoginComponent)
   	},
 	{
+		path: 'update-password',
+		loadComponent: () => import('./components/auth/password-update/password-update')
+		.then(m => m.PasswordUpdateComponent)
+	},
+	{
 		path: 'dashboard',
 		canActivate: [authGuard],
 		loadComponent: () => import('./components/dashboard/dashboard')
@@ -15,8 +20,8 @@ export const routes: Routes = [
 		children: [
 			{
 				path: '',
-				redirectTo: 'stocks',
-				pathMatch: 'full'
+				pathMatch: 'full',
+				redirectTo: 'stocks' // Default fallback, handled by dashboard component
 			},
 			{
 				path: 'stocks',

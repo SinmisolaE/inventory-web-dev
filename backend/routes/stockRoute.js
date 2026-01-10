@@ -8,9 +8,10 @@ const {verifyToken} = require('../middleware/authMiddleware');
 router.use(verifyToken);
 
 // backend/routes/stockRoute.js
-router.get('/', hasRole(['admin', 'stocker']), stockController.getAllStock);
+// Read-only access also allowed for sellers
+router.get('/', hasRole(['admin', 'stocker', 'seller']), stockController.getAllStock);
 
-router.get('/:id', hasRole(['admin', 'stocker']), stockController.getStockById);
+router.get('/:id', hasRole(['admin', 'stocker', 'seller']), stockController.getStockById);
 
 router.post('/', hasRole(['admin', 'stocker']), stockController.addStock);
 

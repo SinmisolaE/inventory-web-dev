@@ -141,4 +141,11 @@ export class AuthService {
       );
   }
 
+  updatePassword(newPassword: string): Observable<{ success: boolean; message: string }> {
+    return this.http.patch<{ success: boolean; message: string }>(
+      `${this.apiUrl}/update-password`,
+      { newPassword }
+    );
+  }
+
 }
